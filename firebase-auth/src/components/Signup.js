@@ -1,12 +1,32 @@
-import React, { useRef } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { Button, Card, Form, Alert } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
+import { useAuth } from "../contexts/AuthContext";
 
 const Signup = () => {
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const ConfirmPasswordRef = useRef();
+  const { signup } = useAuth();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (passwordRef.current.value !== ConfirmPasswordRef.current.value) {
+      setError("Passwords do not match");
+    }
+    try {
+      setLoading(true);
+      setError("");
+      await signup(emailRef.current.value, passwordRef.current.value);
+    } catch (error) {
+      setError(error);
+    }
+    setLoading(false);
+  };
 
   return (
     <Container
@@ -17,7 +37,12 @@ const Signup = () => {
         <Card>
           <Card.Body>
             <h2 className="text-center mb-4">Sign Up</h2>
-            <Form>
+            {error ? (
+              <Alert variant="danger">{JSON.stringify(error)}</Alert>
+            ) : (
+              ""
+            )}
+            <Form onSubmit={handleSubmit}>
               <Form.Group id="name">
                 <Form.Label>Name</Form.Label>
                 <Form.Control ref={nameRef} type="text" required />
@@ -42,7 +67,7 @@ const Signup = () => {
                 />
               </Form.Group>
 
-              <Button className="w-100 mt-2" type="submit">
+              <Button disabled={loading} className="w-100 mt-2" type="submit">
                 Sign Up
               </Button>
             </Form>
