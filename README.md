@@ -8,7 +8,7 @@ Prerequisites:
 Steps:
 
    1. Navigate to the directory where you want to clone the repository.
-   2. Open a terminal inside the folder and clone the repository by running the following command:
+   2. Open a terminal window inside the folder and clone the repository by running the following command:
                 
           git clone https://github.com/Zubaer-Alam/React-Firebase-Auth
           
