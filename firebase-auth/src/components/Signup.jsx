@@ -14,12 +14,16 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (passwordRef.current.value !== confirmPasswordRef.current.value) {
             setError("Passwords do not match");
+            return; // Prevent form submission
+        } else {
+            setError(""); // Clear any previous error messages
         }
+
         try {
             setLoading(true);
-            setError('')
             await signup(emailRef.current.value, passwordRef.current.value);
         } catch (error) {
             setError(error)
