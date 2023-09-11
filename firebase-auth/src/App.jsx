@@ -1,9 +1,9 @@
-import React from "react";
+import Signup from "./components/Signup.jsx";
 
 function App(){
     return(
         <div>
-            My App
+            <Signup/>
         </div>
     )
 }
